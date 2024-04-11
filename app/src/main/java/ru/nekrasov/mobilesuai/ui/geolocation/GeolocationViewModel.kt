@@ -6,10 +6,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import ru.nekrasov.mobilesuai.MainActivity
 import ru.nekrasov.mobilesuai.domain.Location
+import ru.nekrasov.mobilesuai.utils.LocationTracker
+import javax.inject.Inject
 
-class GeolocationViewModel : ViewModel() {
+@HiltViewModel
+class GeolocationViewModel @Inject constructor(
+    private val locationTracker: LocationTracker
+) : ViewModel() {
     var location  by mutableStateOf(Location())
         private set
 
@@ -26,6 +34,14 @@ class GeolocationViewModel : ViewModel() {
     }
 
     fun onGeolocationButtonClick(){
-        TODO()
+        viewModelScope.launch {
+            val newLocation = locationTracker.getCurrentLocation()
+            newLocation?.let {
+                location = Location(
+                    latitude = it.latitude.toString(),
+                    longitude = it.longitude.toString()
+                )
+            }
+        }
     }
 }

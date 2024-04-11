@@ -22,6 +22,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,15 +31,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import ru.nekrasov.mobilesuai.domain.Location
 import ru.nekrasov.mobilesuai.ui.theme.MobileSUAITheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun GeolocationScreen(
     vm: GeolocationViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    val locationPermissions = rememberMultiplePermissionsState(
+        permissions = listOf(
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    )
+    LaunchedEffect(true){
+        locationPermissions.launchMultiplePermissionRequest()
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,13 +70,18 @@ fun GeolocationScreen(
             )
         }
     ) {innerPadding ->
-        MenuGeolocation(location = vm.location, onLocationChange = {latitude, longitude -> vm.onLocationChange(latitude, longitude)}, innerPadding = innerPadding)
+        MenuGeolocation(
+            location = vm.location,
+            onLocationChange = {latitude, longitude -> vm.onLocationChange(latitude, longitude)},
+            onGeolocationButtonClick = {vm.onGeolocationButtonClick()},
+            innerPadding = innerPadding)
     }
 }
 
 @Composable
 fun MenuGeolocation(
     location: Location,
+    onGeolocationButtonClick: () -> Unit,
     onLocationChange: (String, String) -> Unit,
     innerPadding: PaddingValues
 ) {
@@ -91,7 +109,6 @@ fun MenuGeolocation(
                         .border(BorderStroke(2.dp, MaterialTheme.colorScheme.primary))
                         .padding(0.dp),
                     value = location.latitude,
-                    readOnly = true,
                     textStyle = TextStyle(textAlign = TextAlign.Center),
                     onValueChange = { onLocationChange(it, location.longitude) }
                 )
@@ -106,13 +123,12 @@ fun MenuGeolocation(
                         .border(BorderStroke(2.dp, MaterialTheme.colorScheme.primary))
                         .padding(0.dp),
                     value = location.longitude,
-                    readOnly = true,
                     textStyle = TextStyle(textAlign = TextAlign.Center),
                     onValueChange = { onLocationChange(location.latitude, it)}
                 )
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onGeolocationButtonClick() },
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
