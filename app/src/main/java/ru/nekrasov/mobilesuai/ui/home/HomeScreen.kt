@@ -16,16 +16,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.nekrasov.mobilesuai.ui.theme.MobileSUAITheme
 
 @Composable
 fun HomeScreen(
     vm: HomeViewModel = viewModel()
 ){
-
+    val context = LocalContext.current
     Column (
         modifier = Modifier
             .statusBarsPadding()
@@ -37,7 +39,8 @@ fun HomeScreen(
     ) {
         Text(
             text = "Некрасов Владислав группа 4136",
-            style = typography.titleLarge
+            style = typography.titleLarge,
+            textAlign = TextAlign.Center
         )
         Column (
             modifier = Modifier
@@ -47,7 +50,7 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { vm.onDeviceButtonClick(context) },
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
@@ -56,7 +59,7 @@ fun HomeScreen(
                 )
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { vm.onGeolocationButtonClick(context) },
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
@@ -65,7 +68,7 @@ fun HomeScreen(
                 )
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { vm.onNotesButtonClick(context) },
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

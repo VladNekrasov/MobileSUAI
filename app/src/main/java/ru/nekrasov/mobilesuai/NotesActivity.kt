@@ -8,22 +8,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import ru.nekrasov.mobilesuai.ui.home.HomeScreen
-import ru.nekrasov.mobilesuai.ui.home.HomeViewModel
+import ru.nekrasov.mobilesuai.ui.notes.NotesScreen
+import ru.nekrasov.mobilesuai.ui.notes.NotesViewModel
 import ru.nekrasov.mobilesuai.ui.theme.MobileSUAITheme
 
-class MainActivity : ComponentActivity() {
-    private val homeViewModel: HomeViewModel by viewModels()
+class NotesActivity : ComponentActivity() {
+    private val notesViewModelViewModel: NotesViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MobileSUAITheme(darkTheme = homeViewModel.darkChecked) {
+            MobileSUAITheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HomeScreen(vm = homeViewModel)
+                    NotesScreen(vm = notesViewModelViewModel)
                 }
             }
         }
