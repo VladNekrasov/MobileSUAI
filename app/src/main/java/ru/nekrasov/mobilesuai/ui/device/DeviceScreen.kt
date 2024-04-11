@@ -1,5 +1,6 @@
 package ru.nekrasov.mobilesuai.ui.device
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -52,14 +53,22 @@ fun DeviceScreen(
             )
         }
     ) {innerPadding ->
-        MenuDevice(flashlightChecked = vm.flashlightChecked, onFlashlightChecked = {flashlight -> vm.onFlashlightCheckedChange(flashlight) }, innerPadding = innerPadding)
+        MenuDevice(
+            flashlightChecked = vm.flashlightChecked,
+            context = context,
+            onFlashlightChecked = {flashlight, context -> vm.onFlashlightCheckedChange(flashlight, context) },
+            onVibrationButtonClick = {context -> vm.onVibrationButtonClick(context)},
+            innerPadding = innerPadding
+        )
     }
 }
 
 @Composable
 fun MenuDevice(
     flashlightChecked: Boolean,
-    onFlashlightChecked: (Boolean) -> Unit,
+    context: Context,
+    onVibrationButtonClick: (Context) -> Unit,
+    onFlashlightChecked: (Boolean, Context) -> Unit,
     innerPadding: PaddingValues
 ) {
     Column (
@@ -77,7 +86,7 @@ fun MenuDevice(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onVibrationButtonClick(context) },
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
@@ -92,7 +101,7 @@ fun MenuDevice(
                 Text(text = "Фонарик")
                 Switch(
                     checked = flashlightChecked,
-                    onCheckedChange = { onFlashlightChecked(it) }
+                    onCheckedChange = { onFlashlightChecked(it, context) }
                 )
             }
         }
