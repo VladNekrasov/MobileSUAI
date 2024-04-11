@@ -8,10 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import dagger.hilt.android.AndroidEntryPoint
 import ru.nekrasov.mobilesuai.ui.home.HomeScreen
 import ru.nekrasov.mobilesuai.ui.home.HomeViewModel
 import ru.nekrasov.mobilesuai.ui.theme.MobileSUAITheme
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val homeViewModel: HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,10 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import dagger.hilt.android.AndroidEntryPoint
 import ru.nekrasov.mobilesuai.ui.device.DeviceScreen
 import ru.nekrasov.mobilesuai.ui.device.DeviceViewModel
 import ru.nekrasov.mobilesuai.ui.theme.MobileSUAITheme
-
+@AndroidEntryPoint
 class DeviceActivity : ComponentActivity() {
     private val deviceViewModel: DeviceViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
