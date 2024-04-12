@@ -27,14 +27,25 @@ class NotesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            notesUseCase.notesFlow().collect() {newNotes ->
+            notesUseCase.notesFlow().collect {newNotes ->
                 _notes.value = newNotes
             }
         }
     }
     fun onBackButtonClick(currentContext: Context){
-        val intent = Intent(currentContext, MainActivity::class.java)
-        currentContext.startActivity(intent)
+        selected?.let {
+            selected=null
+        } ?: run {
+            val intent = Intent(currentContext, MainActivity::class.java)
+            currentContext.startActivity(intent)
+        }
+    }
+
+    fun onDeleteButtonClick(){
+        viewModelScope.launch {
+            selected?.id?.let { it1 -> notesUseCase.delete(it1) }
+            selected = null
+        }
     }
 
     fun onNoteChange(title: String, text: String){

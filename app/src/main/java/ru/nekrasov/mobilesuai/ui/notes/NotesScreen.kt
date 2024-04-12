@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -59,9 +60,16 @@ fun NotesScreen(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
+                actions = {
+                    if (selected != null) {
+                        IconButton(onClick = { vm.onDeleteButtonClick() }) {
+                            Icon(Icons.Default.Delete, contentDescription = "Delete")
+                        }
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = { vm.onBackButtonClick(context) }) {
-                        Icon(Icons.Filled.ArrowBack, "backIcon")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
                 title = {
@@ -71,7 +79,8 @@ fun NotesScreen(
         },
         floatingActionButton = {
             if (selected==null) {
-                FloatingActionButton(onClick = {vm.onAddNoteClicked()}) {
+                FloatingActionButton(onClick = {vm.onAddNoteClicked()},
+                    ) {
                     Icon(Icons.Default.Add, contentDescription = "Add")
                 }
             }
