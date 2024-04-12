@@ -62,12 +62,19 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
     //hilt
     implementation(libs.google.dagger.hilt.android)
     kapt(libs.google.dagger.hilt.android.compiler)
     //location
     implementation (libs.google.accompanist.permissions)
     implementation(libs.play.services.location)
+    //room
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
